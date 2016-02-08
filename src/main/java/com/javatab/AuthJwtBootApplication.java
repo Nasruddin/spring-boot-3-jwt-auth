@@ -19,27 +19,14 @@ public class AuthJwtBootApplication {
 		return new InitializingBean() {
 
 			@Autowired
-			private UserRepository userRepository;
-
-			@Autowired
 			private TaskRepository taskRepository;
 
 			@Override
 			public void afterPropertiesSet() {
-				addUser("admin", "admin");
-				addUser("user", "user");
 
 				addTask(1, "I have to create a repo", false);
 				addTask(2, "Commit to the repo", false);
 				addTask(3, "Add proper README", false);
-			}
-
-			private void addUser(String username, String password) {
-				User user = new User();
-				user.setUsername(username);
-				user.setPassword(new BCryptPasswordEncoder().encode(password));
-				user.setAuthorities(username.equals("admin") ? "ADMIN" : "USER");
-				userRepository.save(user);
 			}
 
 			private void addTask(long id, String aTask, boolean isCompleted) {
