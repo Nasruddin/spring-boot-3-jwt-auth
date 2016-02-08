@@ -9,5 +9,10 @@
 mvn spring-boot:run
 ```
 
+## Registering a User
+```
+curl -i -H "Content-Type: application/json" -X POST -d '{"username":"user","password":"user"}' http://localhost:8080/api/auth
+```
+
 ## Credits
 [brahalla/Cerberus](https://github.com/brahalla/Cerberus) 
