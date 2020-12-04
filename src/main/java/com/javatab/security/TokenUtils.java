@@ -4,9 +4,9 @@ import com.javatab.model.security.SecurityUser;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.mobile.device.Device;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
@@ -17,7 +17,7 @@ import java.util.Map;
 @Component
 public class TokenUtils {
 
-  private final Logger logger = Logger.getLogger(this.getClass());
+  private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
   private final String AUDIENCE_UNKNOWN   = "unknown";
   private final String AUDIENCE_WEB       = "web";
@@ -104,13 +104,13 @@ public class TokenUtils {
     return (lastPasswordReset != null && created.before(lastPasswordReset));
   }
 
-  private String generateAudience(Device device) {
+  private String generateAudience(String device) {
     String audience = this.AUDIENCE_UNKNOWN;
-    if (device.isNormal()) {
+    if (device.equalsIgnoreCase(this.AUDIENCE_WEB)) {
       audience = this.AUDIENCE_WEB;
-    } else if (device.isTablet()) {
+    } else if (device.equalsIgnoreCase(this.AUDIENCE_TABLET)) {
       audience = AUDIENCE_TABLET;
-    } else if (device.isMobile()) {
+    } else if (device.equalsIgnoreCase(this.AUDIENCE_MOBILE)) {
       audience = AUDIENCE_MOBILE;
     }
     return audience;
@@ -121,7 +121,7 @@ public class TokenUtils {
     return (this.AUDIENCE_TABLET.equals(audience) || this.AUDIENCE_MOBILE.equals(audience));
   }
 
-  public String generateToken(UserDetails userDetails, Device device) {
+  public String generateToken(UserDetails userDetails, String device) {
     Map<String, Object> claims = new HashMap<String, Object>();
     claims.put("sub", userDetails.getUsername());
     claims.put("audience", this.generateAudience(device));

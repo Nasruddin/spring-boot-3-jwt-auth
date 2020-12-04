@@ -6,11 +6,9 @@ import com.javatab.model.json.response.AuthenticationResponse;
 import com.javatab.model.security.SecurityUser;
 import com.javatab.repository.UserRepository;
 import com.javatab.security.TokenUtils;
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
-import org.springframework.mobile.device.Device;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -49,7 +47,7 @@ public class AuthenticationController extends BaseController{
   private UserRepository userRepository;
 
   @RequestMapping(method = RequestMethod.POST)
-  public ResponseEntity<?> authenticationRequest(@RequestBody AuthenticationRequest authenticationRequest, Device device) throws AuthenticationException {
+  public ResponseEntity<?> authenticationRequest(@RequestBody AuthenticationRequest authenticationRequest) throws AuthenticationException {
 
     // Perform the authentication
     Authentication authentication = this.authenticationManager.authenticate(
@@ -62,7 +60,7 @@ public class AuthenticationController extends BaseController{
 
     // Reload password post-authentication so we can generate token
     UserDetails userDetails = this.userDetailsService.loadUserByUsername(authenticationRequest.getUsername());
-    String token = this.tokenUtils.generateToken(userDetails, device);
+    String token = this.tokenUtils.generateToken(userDetails, authenticationRequest.getDevice());
 
     // Return the token
     return ResponseEntity.ok(new AuthenticationResponse(token));

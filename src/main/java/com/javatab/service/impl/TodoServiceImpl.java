@@ -41,7 +41,7 @@ public class TodoServiceImpl implements TodoService {
 
     @Override
     public Task getTaskById(long id) {
-        return repository.findOne(id);
+        return repository.findById(id).get();
     }
 
     @Override
@@ -49,7 +49,7 @@ public class TodoServiceImpl implements TodoService {
             propagation = Propagation.SUPPORTS,
             readOnly = false)
     public void delete(long id) {
-        repository.delete(id);
+        repository.deleteById(id);
     }
 
 }

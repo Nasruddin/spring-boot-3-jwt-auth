@@ -7,14 +7,16 @@ public class AuthenticationRequest extends ModelBase {
 	private static final long serialVersionUID = 6624726180748515507L;
 	private String username;
 	private String password;
+	private String device;
 
 	public AuthenticationRequest() {
 		super();
 	}
 
-	public AuthenticationRequest(String username, String password) {
+	public AuthenticationRequest(String username, String password, String device) {
 		this.setUsername(username);
 		this.setPassword(password);
+		this.setDevice(device);
 	}
 
 	public String getUsername() {
@@ -33,4 +35,11 @@ public class AuthenticationRequest extends ModelBase {
 		this.password = password;
 	}
 
+	public String getDevice() {
+		return device;
+	}
+
+	public void setDevice(String device) {
+		this.device = device;
+	}
 }
