@@ -1,8 +1,14 @@
 # jwt-auth-springboot
-:key: A sample Spring boot security application using JWT auth to
+:key: Sample Spring boot application for Authentication and Authorization
 
-* secure a resource
-* provide an endpoint to supply JWT access tokens to the resource
+## Features
+* Customizable header(X-Auth-Token) to pass Auth token.
+* JWT for token creation and validation.
+* Role based authorization.
+* Device based auth.
+* Custom Validators
+* OpenApi and Swagger integration.
+
 
 ## Running the sample app
 ```
@@ -11,98 +17,123 @@ mvn spring-boot:run
 
 ## Registering a User
 ```
-curl -i -H "Content-Type: application/json" -X POST -d '{"username":"user","password":"user"}' http://localhost:9000/api/auth/register
+curl -X POST "http://localhost:9000/api/auth/register" -H  "accept: */*" -H  "Content-Type: application/json" -d "{\"username\":\"nasruddin\",\"password\":\"p@ssw00d\",\"device\":\"web\",\"email\":\"nasruddin@gmail.com\"}"
 
-HTTP/1.1 200 
-X-Content-Type-Options: nosniff
-X-XSS-Protection: 1; mode=block
-Cache-Control: no-cache, no-store, max-age=0, must-revalidate
-Pragma: no-cache
-Expires: 0
-X-Frame-Options: DENY
-X-Application-Context: application:local:9000
-Content-Length: 0
-Date: Mon, 13 Nov 2017 11:15:36 GMT
+{
+  "id": 1,
+  "username": "nasruddin",
+  "password": "$2a$10$LWgocVblwyrOolL0SyUdt.fUpqdGZ8kzddUGw4d/NeFc0f/lcHf9a",
+  "email": "nasruddin@gmail.com",
+  "lastPasswordReset": "2020-12-09T15:04:10.391+00:00",
+  "authorities": "ADMIN"
+}
 
+cache-control: no-cache,no-store,max-age=0,must-revalidate 
+connection: keep-alive 
+content-type: application/json 
+date: Wed,09 Dec 2020 15:04:10 GMT 
+expires: 0 
+keep-alive: timeout=60 
+pragma: no-cache 
+transfer-encoding: chunked 
+vary: Origin,Access-Control-Request-Method,Access-Control-Request-Headers 
+x-content-type-options: nosniff 
+x-xss-protection: 1; mode=block 
 ```
 
 ## Login a User / Fetch Token
 ```
-curl -i -H "Content-Type: application/json" -X POST -d '{"username":"user","password":"user"}' http://localhost:9000/api/auth
-
-HTTP/1.1 200 
-X-Content-Type-Options: nosniff
-X-XSS-Protection: 1; mode=block
-Cache-Control: no-cache, no-store, max-age=0, must-revalidate
-Pragma: no-cache
-Expires: 0
-X-Frame-Options: DENY
-X-Application-Context: application:local:9000
-Content-Type: application/json;charset=UTF-8
-Transfer-Encoding: chunked
-Date: Mon, 13 Nov 2017 11:15:43 GMT
+curl -X POST "http://localhost:9000/api/auth" -H  "accept: */*" -H  "Content-Type: application/json" -d "{\"username\":\"nasruddin\",\"password\":\"p@ssw00d\",\"device\":\"web\"}"
 
 {
-  "token" : "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuYXNpciIsImF1ZGllbmNlIjoid2ViIiwiY3JlYXRlZCI6MTUxMDU3MTc0MjAyMCwiZXhwIjoxNTExMTc2NTQyfQ.D4E7ZAiBbqhW2V3jw9-jtl6GDd2scHBpp0bMX9nUg-CpS8dmU5fe1pGDNHrtNlswPtwMrf0W27H87KSeJGVr8g" 
+  "token": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuYXNydWRkaW4iLCJhdWRpZW5jZSI6IndlYiIsImNyZWF0ZWQiOjE2MDc1MjY0NzkzMjEsImV4cCI6MTYwODEzMTI3OX0.AWNn3WcAo8E65r2nT049fKBhQoPVoAeNpENvPQp-sLJEj6ubo5bBk0waeV1mZD6Ydvqcrj0XE0LBuwE9fI3qEw"
 }
 
+ cache-control: no-cache,no-store,max-age=0,must-revalidate 
+ connection: keep-alive 
+ content-type: application/json 
+ date: Wed,09 Dec 2020 15:07:59 GMT 
+ expires: 0 
+ keep-alive: timeout=60 
+ pragma: no-cache 
+ transfer-encoding: chunked 
+ vary: Origin,Access-Control-Request-Method,Access-Control-Request-Headers 
+ x-content-type-options: nosniff 
+ x-xss-protection: 1; mode=block 
 ```
 
-## Accessing TODO API
+## Accessing User/Protected API
 
 Without setting X-AUTH-TOKEN
 ```
-curl -i -H GET http://localhost:9000/api/todo
-HTTP/1.1 401 
-X-Content-Type-Options: nosniff
-X-XSS-Protection: 1; mode=block
-Cache-Control: no-cache, no-store, max-age=0, must-revalidate
-Pragma: no-cache
-Expires: 0
-X-Frame-Options: DENY
-Content-Type: application/json;charset=UTF-8
-Transfer-Encoding: chunked
-Date: Tue, 14 Nov 2017 13:52:46 GMT
+curl -X GET "http://localhost:9000/api/user/nasruddin" -H  "accept: */*"
 
 {
-  "timestamp" : 1510667566718,
-  "status" : 401,
-  "error" : "Unauthorized",
-  "message" : "Access Denied",
-  "path" : "/api/todo"
-}  
+  "timestamp": "2020-12-09T15:10:49.028+00:00",
+  "status": 401,
+  "error": "Unauthorized",
+  "message": "",
+  "path": "/api/user/nasruddin"
+}
+
+cache-control: no-cache,no-store,max-age=0,must-revalidate 
+connection: keep-alive 
+content-type: application/json 
+date: Wed,09 Dec 2020 15:10:49 GMT 
+expires: 0 
+keep-alive: timeout=60 
+pragma: no-cache 
+transfer-encoding: chunked 
+vary: Origin,Access-Control-Request-Method,Access-Control-Request-Headers 
+x-content-type-options: nosniff 
+x-xss-protection: 1; mode=block 
 ```
 
 With setting X-AUTH-TOKEN
 ```
-curl -i -H "X-AUTH-TOKEN":"eyJhbGciOiJIUzUxMiJ9.eyJdWIiOiJ1c2VyIiwiYXVkaWVuY2UiOiJ3ZWIiLCJjcmVhdGVkIjoxNTEwNjY2NzAyNTUyLCJleHAiOjE1MTEyNzE1MDJ9.8LbOIWqiepORUj9xF4aYELUnWh6cyuKqdvj9Neo2zSZ1Jb5ZFHcpa6HLoOBKpz2E4DmpbMwo4Ad1VUUHPfvrXA" GET http://localhost:9000/api/todo
+curl -X GET "http://localhost:9000/api/user/nasruddin" -H  "accept: */*" -H  "X-Auth-Token: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuYXNydWRkaW4iLCJhdWRpZW5jZSI6IndlYiIsImNyZWF0ZWQiOjE2MDc1MjY0NzkzMjEsImV4cCI6MTYwODEzMTI3OX0.AWNn3WcAo8E65r2nT049fKBhQoPVoAeNpENvPQp-sLJEj6ubo5bBk0waeV1mZD6Ydvqcrj0XE0LBuwE9fI3qEw"
 
-HTTP/1.1 200 
-X-Content-Type-Options: nosniff
-X-XSS-Protection: 1; mode=block
-Cache-Control: no-cache, no-store, max-age=0, must-revalidate
-Pragma: no-cache
-Expires: 0
-X-Frame-Options: DENY
-X-Application-Context: application:local:9000
-Content-Type: application/json;charset=UTF-8
-Transfer-Encoding: chunked
-Date: Tue, 14 Nov 2017 13:51:10 GMT
+{
+  "id": 1,
+  "username": "nasruddin",
+  "password": "$2a$10$LWgocVblwyrOolL0SyUdt.fUpqdGZ8kzddUGw4d/NeFc0f/lcHf9a",
+  "email": "nasruddin@gmail.com",
+  "lastPasswordReset": "2020-12-09T15:04:10.391+00:00",
+  "authorities": "ADMIN"
+}
 
-[ {
-  "id" : 1,
-  "task" : "I have to create a repo",
-  "completed" : false
-}, {
-  "id" : 2,
-  "task" : "Commit to the repo",
-  "completed" : false
-}, {
-  "id" : 3,
-  "task" : "Add proper README",
-  "completed" : false
-} ]
+cache-control: no-cache,no-store,max-age=0,must-revalidate 
+ connection: keep-alive 
+ content-type: application/json 
+ date: Wed,09 Dec 2020 15:12:19 GMT 
+ expires: 0 
+ keep-alive: timeout=60 
+ pragma: no-cache 
+ transfer-encoding: chunked 
+ vary: Origin,Access-Control-Request-Method,Access-Control-Request-Headers 
+ x-content-type-options: nosniff 
+ x-xss-protection: 1; mode=block 
 ```
+
+## Admin API
+```
+curl -X GET "http://localhost:9000/api/admin" -H  "accept: */*" -H  "X-Auth-Token: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuYXNydWRkaW4iLCJhdWRpZW5jZSI6IndlYiIsImNyZWF0ZWQiOjE2MDc1Mjc1MTUzNjMsImV4cCI6MTYwODEzMjMxNX0.zHcWtUW43dXOQs8WGy1ItrMyc8gyBNf8j_irFz09lGkR7flYsNi3-o8mjYe1rqjg4SzcG8qRdbqEC7dvGASjTQ"
+
+:O
+
+cache-control: no-cache,no-store,max-age=0,must-revalidate 
+connection: keep-alive 
+content-length: 2 
+content-type: text/plain;charset=UTF-8 
+date: Wed,09 Dec 2020 15:26:01 GMT 
+expires: 0 
+keep-alive: timeout=60 
+pragma: no-cache 
+vary: Origin,Access-Control-Request-Method,Access-Control-Request-Headers 
+x-content-type-options: nosniff 
+x-xss-protection: 1; mode=block 
+```
+
 
 ## Credits
 [brahalla/Cerberus](https://github.com/brahalla/Cerberus) 

@@ -1,5 +1,6 @@
 package com.javatab.security;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -16,16 +17,14 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
+@RequiredArgsConstructor
 public class AuthenticationTokenFilter extends UsernamePasswordAuthenticationFilter {
 
   @Value("${javatab.token.header}")
   private String tokenHeader;
 
-  @Autowired
-  private TokenUtils tokenUtils;
-
-  @Autowired
-  private UserDetailsService userDetailsService;
+  private final TokenUtils tokenUtils;
+  private final UserDetailsService userDetailsService;
 
   @Override
   public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {

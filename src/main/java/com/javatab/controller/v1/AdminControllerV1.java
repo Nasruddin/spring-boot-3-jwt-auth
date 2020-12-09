@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("protected")
-public class ProtectedControllerV1 extends BaseController {
+@RequestMapping("/admin")
+public class AdminControllerV1 extends BaseController {
 
   /**
   This is an example of some different kinds of granular restriction for endpoints. You can use the built-in SPEL expressions

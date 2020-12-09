@@ -1,6 +1,7 @@
 package com.javatab.service.impl;
 
 import com.javatab.domain.entity.User;
+import com.javatab.exception.NoUserFoundException;
 import com.javatab.model.factory.UserFactory;
 import com.javatab.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +22,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     User aUser = this.userRepository
             .findByUsername(username)
             .orElseThrow(
-                    () -> new UsernameNotFoundException(String.format("No user found with username '%s'.", username)));
+                    () -> new NoUserFoundException(String.format("No user found with username '%s'.", username)));
     return UserFactory.create(aUser);
   }
 
