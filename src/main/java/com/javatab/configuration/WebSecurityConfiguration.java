@@ -24,14 +24,15 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-  @Autowired
-  private EntryPointUnauthorizedHandler unauthorizedHandler;
+  private final EntryPointUnauthorizedHandler unauthorizedHandler;
+  private final UserDetailsService userDetailsService;
+  private final SecurityService securityService;
 
-  @Autowired
-  private UserDetailsService userDetailsService;
-
-  @Autowired
-  private SecurityService securityService;
+  public WebSecurityConfiguration(EntryPointUnauthorizedHandler unauthorizedHandler, UserDetailsService userDetailsService, SecurityService securityService) {
+    this.unauthorizedHandler = unauthorizedHandler;
+    this.userDetailsService = userDetailsService;
+    this.securityService = securityService;
+  }
 
   @Autowired
   public void configureAuthentication(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
@@ -76,10 +77,17 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
         .and()
       .authorizeRequests()
         .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-        .antMatchers("/auth/**", "/user/**").permitAll()
+        .antMatchers("/auth/**",
+                "/h2-console/**",
+                "/api-docs/**",
+                "/swagger-ui.html",
+                "/swagger-ui/**").permitAll()
         .anyRequest().authenticated()
          .and()
       .cors();
+
+    // To fix h2-console - https://stackoverflow.com/questions/53395200/h2-console-is-not-showing-in-browser
+    httpSecurity.headers().frameOptions().disable();
 
     // Custom JWT based authentication
     httpSecurity

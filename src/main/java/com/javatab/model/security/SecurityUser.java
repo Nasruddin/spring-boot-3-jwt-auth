@@ -9,6 +9,8 @@ import java.util.Date;
 
 public class SecurityUser implements UserDetails {
 
+  private static final long serialVersionUID = -4363004109103089561L;
+
   private Long id;
   private String username;
   private String password;

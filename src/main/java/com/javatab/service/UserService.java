@@ -3,12 +3,10 @@ package com.javatab.service;
 import com.javatab.domain.entity.User;
 
 import java.util.List;
+import java.util.Optional;
 
-/**
- * Created by nasir on 6/2/16.
- */
 public interface UserService {
 
     List<User> getAllUsers();
-    User getUserByUsername(String username);
+    Optional<User> getUserByUsername(String username);
 }

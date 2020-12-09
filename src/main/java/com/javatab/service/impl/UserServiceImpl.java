@@ -3,19 +3,18 @@ package com.javatab.service.impl;
 import com.javatab.domain.entity.User;
 import com.javatab.repository.UserRepository;
 import com.javatab.service.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
-/**
- * Created by nasir on 6/2/16.
- */
 @Service
+@RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
     @Override
     public List<User> getAllUsers() {
@@ -23,7 +22,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getUserByUsername(String username) {
+    public Optional<User> getUserByUsername(String username) {
         return userRepository.findByUsername(username);
     }
 }
