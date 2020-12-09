@@ -134,6 +134,8 @@ x-content-type-options: nosniff
 x-xss-protection: 1; mode=block 
 ```
 
+## OpenAPI Swagger
+![Swagger](https://github.com/Nasruddin/spring-boot-jwt-auth/blob/master/images/swagger.PNG?raw=true)
 
 ## Credits
 [brahalla/Cerberus](https://github.com/brahalla/Cerberus) 
