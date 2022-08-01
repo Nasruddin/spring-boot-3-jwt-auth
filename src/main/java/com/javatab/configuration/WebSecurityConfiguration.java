@@ -2,6 +2,7 @@ package com.javatab.configuration;
 
 import com.javatab.security.AuthenticationTokenFilter;
 import com.javatab.security.EntryPointUnauthorizedHandler;
+import com.javatab.security.TokenUtils;
 import com.javatab.service.SecurityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -27,11 +28,13 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
   private final EntryPointUnauthorizedHandler unauthorizedHandler;
   private final UserDetailsService userDetailsService;
   private final SecurityService securityService;
+  private final TokenUtils tokenUtils;
 
-  public WebSecurityConfiguration(EntryPointUnauthorizedHandler unauthorizedHandler, UserDetailsService userDetailsService, SecurityService securityService) {
+  public WebSecurityConfiguration(EntryPointUnauthorizedHandler unauthorizedHandler, UserDetailsService userDetailsService, SecurityService securityService, TokenUtils tokenUtils) {
     this.unauthorizedHandler = unauthorizedHandler;
     this.userDetailsService = userDetailsService;
     this.securityService = securityService;
+    this.tokenUtils = tokenUtils;
   }
 
   @Autowired
@@ -54,7 +57,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
   @Bean
   public AuthenticationTokenFilter authenticationTokenFilterBean() throws Exception {
-    AuthenticationTokenFilter authenticationTokenFilter = new AuthenticationTokenFilter();
+    AuthenticationTokenFilter authenticationTokenFilter = new AuthenticationTokenFilter(tokenUtils, userDetailsService);
     authenticationTokenFilter.setAuthenticationManager(authenticationManagerBean());
     return authenticationTokenFilter;
   }
