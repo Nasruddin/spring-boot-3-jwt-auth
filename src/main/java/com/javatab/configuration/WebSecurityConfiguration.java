@@ -4,12 +4,12 @@ import com.javatab.security.AuthenticationTokenFilter;
 import com.javatab.security.EntryPointUnauthorizedHandler;
 import com.javatab.security.TokenUtils;
 import com.javatab.service.SecurityService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -23,42 +23,43 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
+public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter{
 
   private final EntryPointUnauthorizedHandler unauthorizedHandler;
   private final UserDetailsService userDetailsService;
   private final SecurityService securityService;
   private final TokenUtils tokenUtils;
+  private final AuthenticationConfiguration configuration;
 
-  public WebSecurityConfiguration(EntryPointUnauthorizedHandler unauthorizedHandler, UserDetailsService userDetailsService, SecurityService securityService, TokenUtils tokenUtils) {
+  public WebSecurityConfiguration(EntryPointUnauthorizedHandler unauthorizedHandler, UserDetailsService userDetailsService, SecurityService securityService, TokenUtils tokenUtils, AuthenticationConfiguration configuration) {
     this.unauthorizedHandler = unauthorizedHandler;
     this.userDetailsService = userDetailsService;
     this.securityService = securityService;
     this.tokenUtils = tokenUtils;
+    this.configuration = configuration;
   }
 
-  @Autowired
-  public void configureAuthentication(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
+  @Override
+  public void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
     authenticationManagerBuilder
       .userDetailsService(this.userDetailsService)
-        .passwordEncoder(passwordEncoder());
+      .passwordEncoder(this.passwordEncoder());
   }
 
   @Bean
   public PasswordEncoder passwordEncoder() {
-    return new BCryptPasswordEncoder();
+    return new BCryptPasswordEncoder(10);
   }
 
   @Bean
-  @Override
-  public AuthenticationManager authenticationManagerBean() throws Exception {
-    return super.authenticationManagerBean();
+  public AuthenticationManager authenticationManage() throws Exception {
+    return configuration.getAuthenticationManager();
   }
 
   @Bean
   public AuthenticationTokenFilter authenticationTokenFilterBean() throws Exception {
     AuthenticationTokenFilter authenticationTokenFilter = new AuthenticationTokenFilter(tokenUtils, userDetailsService);
-    authenticationTokenFilter.setAuthenticationManager(authenticationManagerBean());
+    authenticationTokenFilter.setAuthenticationManager(authenticationManage());
     return authenticationTokenFilter;
   }
 
@@ -67,7 +68,6 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     return this.securityService;
   }
 
-  @Override
   protected void configure(HttpSecurity httpSecurity) throws Exception {
     httpSecurity
       .csrf()
