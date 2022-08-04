@@ -18,7 +18,9 @@ mvn spring-boot:run
 ## Registering a User
 ```
 curl -X POST "http://localhost:9000/api/auth/register" -H  "accept: */*" -H  "Content-Type: application/json" -d "{\"username\":\"nasruddin\",\"password\":\"p@ssw00d\",\"device\":\"web\",\"email\":\"nasruddin@gmail.com\"}"
+```
 
+```
 {
   "id": 1,
   "username": "nasruddin",
@@ -44,7 +46,8 @@ x-xss-protection: 1; mode=block
 ## Login a User / Fetch Token
 ```
 curl -X POST "http://localhost:9000/api/auth" -H  "accept: */*" -H  "Content-Type: application/json" -d "{\"username\":\"nasruddin\",\"password\":\"p@ssw00d\",\"device\":\"web\"}"
-
+```
+```
 {
   "token": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuYXNydWRkaW4iLCJhdWRpZW5jZSI6IndlYiIsImNyZWF0ZWQiOjE2MDc1MjY0NzkzMjEsImV4cCI6MTYwODEzMTI3OX0.AWNn3WcAo8E65r2nT049fKBhQoPVoAeNpENvPQp-sLJEj6ubo5bBk0waeV1mZD6Ydvqcrj0XE0LBuwE9fI3qEw"
 }
@@ -67,7 +70,8 @@ curl -X POST "http://localhost:9000/api/auth" -H  "accept: */*" -H  "Content-Typ
 Without setting X-AUTH-TOKEN
 ```
 curl -X GET "http://localhost:9000/api/user/nasruddin" -H  "accept: */*"
-
+```
+```
 {
   "timestamp": "2020-12-09T15:10:49.028+00:00",
   "status": 401,
@@ -92,7 +96,8 @@ x-xss-protection: 1; mode=block
 With setting X-AUTH-TOKEN
 ```
 curl -X GET "http://localhost:9000/api/user/nasruddin" -H  "accept: */*" -H  "X-Auth-Token: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuYXNydWRkaW4iLCJhdWRpZW5jZSI6IndlYiIsImNyZWF0ZWQiOjE2MDc1MjY0NzkzMjEsImV4cCI6MTYwODEzMTI3OX0.AWNn3WcAo8E65r2nT049fKBhQoPVoAeNpENvPQp-sLJEj6ubo5bBk0waeV1mZD6Ydvqcrj0XE0LBuwE9fI3qEw"
-
+```
+```
 {
   "id": 1,
   "username": "nasruddin",
@@ -118,7 +123,8 @@ cache-control: no-cache,no-store,max-age=0,must-revalidate
 ## Admin API
 ```
 curl -X GET "http://localhost:9000/api/admin" -H  "accept: */*" -H  "X-Auth-Token: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuYXNydWRkaW4iLCJhdWRpZW5jZSI6IndlYiIsImNyZWF0ZWQiOjE2MDc1Mjc1MTUzNjMsImV4cCI6MTYwODEzMjMxNX0.zHcWtUW43dXOQs8WGy1ItrMyc8gyBNf8j_irFz09lGkR7flYsNi3-o8mjYe1rqjg4SzcG8qRdbqEC7dvGASjTQ"
-
+```
+```
 :O
 
 cache-control: no-cache,no-store,max-age=0,must-revalidate 
@@ -136,6 +142,3 @@ x-xss-protection: 1; mode=block
 
 ## OpenAPI Swagger
 ![Swagger](https://github.com/Nasruddin/spring-boot-jwt-auth/blob/master/images/swagger.PNG?raw=true)
-
-## Credits
-[brahalla/Cerberus](https://github.com/brahalla/Cerberus) 
