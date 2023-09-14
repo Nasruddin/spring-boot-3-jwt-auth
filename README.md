@@ -29,8 +29,9 @@ curl -X POST "http://localhost:9000/api/auth/register" -H  "accept: */*" -H  "Co
     "lastPasswordReset":"2023-09-14T08:41:10.080+00:00",
     "authorities":"ADMIN"
 }
-
 ```
+H2-console can be accessed at <http://localhost:9000/api/h2-console>
+![JWT Decoded](https://github.com/Nasruddin/spring-boot-jwt-auth/blob/pom-update/images/h2-console.png?raw=true)
 
 ## Login a User / Fetch Token
 ```
@@ -39,6 +40,8 @@ curl -X POST "http://localhost:9000/api/auth" -H  "accept: */*" -H  "Content-Typ
 ```
 {"token":"eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuYXNydWRkaW4iLCJhdWRpZW5jZSI6IndlYiIsImNyZWF0ZWQiOjE2OTQ2ODE2ODE3MDUsImV4cCI6MTY5NTI4NjQ4MX0.MydwIWzN3SgCvB8cYozKcR2tHMCM5nrIPXUBtx4o82ot1taL_NQM5TRHZ4yOc9uUcZFrz1XQAL_fDNXAIwmZxw"}
 ```
+
+![JWT Decoded](https://github.com/Nasruddin/spring-boot-jwt-auth/blob/pom-update/images/decoded-jwt.png?raw=true)
 
 ## Accessing User/Protected API
 
@@ -78,4 +81,9 @@ curl -X GET "http://localhost:9000/api/admin" -H  "accept: */*" -H  "X-Auth-Toke
 ```
 
 ## OpenAPI Swagger
-![Swagger](https://github.com/Nasruddin/spring-boot-jwt-auth/blob/master/images/swagger.PNG?raw=true)
+1. Swagger can be accessed at <http://localhost:9000/api/swagger-ui/index.html>
+
+![Swagger](https://github.com/Nasruddin/spring-boot-jwt-auth/blob/pom-update/images/swagger.png?raw=true)
+
+2. API Docs can be accessed at <http://localhost:9000/api/api-docs>
+![API Docs](https://github.com/Nasruddin/spring-boot-jwt-auth/blob/pom-update/images/open-api.png?raw=true)
