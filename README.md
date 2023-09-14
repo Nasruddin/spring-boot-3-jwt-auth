@@ -41,7 +41,7 @@ curl -X POST "http://localhost:9000/api/auth" -H  "accept: */*" -H  "Content-Typ
 {"token":"eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuYXNydWRkaW4iLCJhdWRpZW5jZSI6IndlYiIsImNyZWF0ZWQiOjE2OTQ2ODE2ODE3MDUsImV4cCI6MTY5NTI4NjQ4MX0.MydwIWzN3SgCvB8cYozKcR2tHMCM5nrIPXUBtx4o82ot1taL_NQM5TRHZ4yOc9uUcZFrz1XQAL_fDNXAIwmZxw"}
 ```
 
-![JWT Decoded](https://github.com/Nasruddin/spring-boot-jwt-auth/blob/pom-update/images/decoded-jwt.png?raw=true)
+![JWT Decoded](https://github.com/Nasruddin/spring-boot-3-jwt-auth/blob/master/images/decoded-jwt.png?raw=true)
 
 ## Accessing User/Protected API
 
