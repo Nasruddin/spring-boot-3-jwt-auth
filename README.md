@@ -1,4 +1,4 @@
-# spring-boot-2-jwt-auth
+# spring-boot-3-jwt-auth
 :key: Sample Spring boot application for Authentication and Authorization
 
 ## Features
