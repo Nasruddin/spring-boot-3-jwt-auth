@@ -1,5 +1,5 @@
 # spring-boot-3-jwt-auth
-:key: Sample Spring boot application for Authentication and Authorization
+:key: Sample Spring boot 3 application for Authentication and Authorization
 
 ## Features
 * Customizable header(X-Auth-Token) to pass Auth token.
