@@ -6,7 +6,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import lombok.*;
 
-
 import java.util.Date;
 
 @Entity
@@ -22,12 +21,16 @@ public class User extends BaseEntity {
 
   @Column(name = "username")
   private String username;
+
   @Column(name = "password")
   private String password;
+
   @Column(name = "email")
   private String email;
+
   @Column(name = "last_password_reset")
   private Date lastPasswordReset;
+
   @Column(name = "authorities")
   private String authorities;
 

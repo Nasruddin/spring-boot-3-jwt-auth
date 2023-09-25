@@ -2,22 +2,23 @@ package com.javatab.security;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.ServletRequest;
-import jakarta.servlet.ServletResponse;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
+import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
 @RequiredArgsConstructor
-public class AuthenticationTokenFilter extends UsernamePasswordAuthenticationFilter {
+@Configuration
+public class AuthenticationTokenFilter extends OncePerRequestFilter {
 
   @Value("${javatab.token.header}")
   private String tokenHeader;
@@ -26,9 +27,8 @@ public class AuthenticationTokenFilter extends UsernamePasswordAuthenticationFil
   private final UserDetailsService userDetailsService;
 
   @Override
-  public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-
-    HttpServletRequest httpRequest = (HttpServletRequest) request;
+  protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+    HttpServletRequest httpRequest = request;
     String authToken = httpRequest.getHeader(tokenHeader);
     String username = this.tokenUtils.getUsernameFromToken(authToken);
 
@@ -41,7 +41,7 @@ public class AuthenticationTokenFilter extends UsernamePasswordAuthenticationFil
       }
     }
 
-    chain.doFilter(request, response);
+    filterChain.doFilter(request, response);
   }
 
 }
